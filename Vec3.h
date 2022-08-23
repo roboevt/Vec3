@@ -44,7 +44,7 @@ public:
 	void setY(const float y);  // And also shouldn't be neccesary too often
 	void setZ(const float z);
 
-	static bool usingSimd() const;
+	static bool usingSimd();
 
 	Vec3() = default;
 };
