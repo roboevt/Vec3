@@ -161,7 +161,7 @@ void Vec3::setZ(const float z) {
 #endif
 }
 
-bool Vec3::usingSimd() const {
+bool Vec3::usingSimd() {
 #ifdef USE_SIMD
 	return true;
 #else
