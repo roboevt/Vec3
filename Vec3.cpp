@@ -21,7 +21,7 @@ Vec3::Vec3(__m128 inputVector) {
 }
 #endif
 
-float Vec3::dot(const Vec3& other) {
+float Vec3::dot(const Vec3& other) const {
 #ifdef USE_SIMD
 	return _mm_cvtss_f32(_mm_dp_ps(this->sseVector, other.sseVector, FIRST_MASK));
 #else 
@@ -29,7 +29,7 @@ float Vec3::dot(const Vec3& other) {
 #endif
 }
 
-float Vec3::magnitudeSquared() {
+float Vec3::magnitudeSquared() const {
 #ifdef USE_SIMD
 	return _mm_cvtss_f32(_mm_dp_ps(this->sseVector, this->sseVector, FIRST_MASK));
 #else
@@ -37,7 +37,7 @@ float Vec3::magnitudeSquared() {
 #endif
 }
 
-float Vec3::magnitude() {
+float Vec3::magnitude() const {
 #ifdef USE_SIMD
 	return _mm_cvtss_f32(_mm_sqrt_ss(_mm_dp_ps(this->sseVector, this->sseVector, FIRST_MASK)));
 #else
@@ -45,7 +45,7 @@ float Vec3::magnitude() {
 #endif
 }
 
-Vec3 Vec3::normalized() {
+Vec3 Vec3::normalized() const {
 #ifdef USE_SIMD
 	__m128 inverseSqrt = _mm_rsqrt_ps(_mm_dp_ps(this->sseVector, this->sseVector, ALL_MASK));
 	return Vec3(_mm_mul_ps(this->sseVector, inverseSqrt));
@@ -55,7 +55,7 @@ Vec3 Vec3::normalized() {
 #endif
 }
 
-Vec3 Vec3::operator+(const Vec3& other) {
+Vec3 Vec3::operator+(const Vec3& other) const {
 #ifdef USE_SIMD
 	return Vec3(_mm_add_ps(this->sseVector, other.sseVector));
 #else
@@ -73,7 +73,7 @@ void Vec3::operator+=(const Vec3& other) {
 #endif
 }
 
-Vec3 Vec3::operator-(const Vec3& other) {
+Vec3 Vec3::operator-(const Vec3& other) const {
 #ifdef USE_SIMD
 	return Vec3(_mm_sub_ps(this->sseVector, other.sseVector));
 #else
@@ -81,7 +81,7 @@ Vec3 Vec3::operator-(const Vec3& other) {
 #endif
 }
 
-void Vec3::operator-=(const Vec3& other) {
+void Vec3::operator-=(const Vec3& other){
 #ifdef USE_SIMD
 	this->sseVector = _mm_sub_ps(this->sseVector, other.sseVector);
 #else
@@ -91,7 +91,7 @@ void Vec3::operator-=(const Vec3& other) {
 #endif
 }
 
-Vec3 Vec3::operator*(const float scale) {
+Vec3 Vec3::operator*(const float scale) const {
 #ifdef USE_SIMD
 	return Vec3(_mm_mul_ps(this->sseVector, _mm_set1_ps(scale)));
 #else
@@ -99,11 +99,11 @@ Vec3 Vec3::operator*(const float scale) {
 #endif
 }
 
-float Vec3::operator*(const Vec3& other) {
+float Vec3::operator*(const Vec3& other) const {
 	return dot(other);
 }
 
-float Vec3::getX() {
+float Vec3::getX() const {
 #ifdef USE_SIMD
 	return _mm_cvtss_f32(this->sseVector);
 #else
@@ -111,7 +111,7 @@ float Vec3::getX() {
 #endif
 }
 
-float Vec3::getY() {
+float Vec3::getY() const {
 #ifdef USE_SIMD
 	float result;
 	_MM_EXTRACT_FLOAT(result, this->sseVector, 1);
@@ -121,7 +121,7 @@ float Vec3::getY() {
 #endif
 }
 
-float Vec3::getZ() {
+float Vec3::getZ() const {
 #ifdef USE_SIMD
 	float result;
 	_MM_EXTRACT_FLOAT(result, this->sseVector, 2);
@@ -131,7 +131,7 @@ float Vec3::getZ() {
 #endif
 }
 
-void Vec3::setX(float x) {
+void Vec3::setX(const float x) {
 #ifdef USE_SIMD
 	float y = this->getY();
 	float z = this->getZ();
@@ -141,7 +141,7 @@ void Vec3::setX(float x) {
 #endif
 }
 
-void Vec3::setY(float y) {
+void Vec3::setY(const float y) {
 #ifdef USE_SIMD
 	float x = this->getX();
 	float z = this->getZ();
@@ -151,7 +151,7 @@ void Vec3::setY(float y) {
 #endif
 }
 
-void Vec3::setZ(float z) {
+void Vec3::setZ(const float z) {
 #ifdef USE_SIMD
 	float x = this->getX();
 	float y = this->getY();
@@ -161,7 +161,7 @@ void Vec3::setZ(float z) {
 #endif
 }
 
-bool Vec3::usingSimd() {
+bool Vec3::usingSimd() const {
 #ifdef USE_SIMD
 	return true;
 #else
